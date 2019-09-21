@@ -1,0 +1,70 @@
+<mvc:View
+	controllerName="hanaApp.OpenUI5App.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	
+	<Shell>
+		<App>
+			<pages>
+				<Page title="{i18n>homePageTitle}">
+					<content>
+						<Panel headerText="{i18n>helloPanelTitle}">
+							<content>
+								
+								<Button 
+									icon="sap-icon://account"
+									text="{i18n>showHelloButtonText}" 
+									press=".onShowHello"/>
+		
+								<Input 
+									value="{/recipient/name}" 
+									description="Hello {/recipient/name}" 
+									valueLiveUpdate="true" 
+									width="60%"/>
+								
+								<List
+									id="invoiceList"
+    								class="sapUiResponsiveMargin"
+    								width="auto"
+    								items="{
+    									path : 'invoice>/Invoices',
+    									sorter : { 
+    										path : 'ShipperName',
+    										group : true,
+    										descending : true
+    									}
+    								}" >
+									
+									<headerToolbar>
+										<Toolbar>
+											<Title text="Invoices"/>
+											<ToolbarSpacer/>
+											<SearchField width="30%" search=".onFilterInvoices"/>
+										</Toolbar>
+									</headerToolbar>
+    								
+    								<items>
+        								<ObjectListItem 
+        									title="{invoice>Quantity} x {invoice>ProductName}"
+        									number="{ parts : [ { path : 'invoice>ExtendPrice' }, 'EUR' ], type: 'sap.ui.model.type.Currency' }"
+        									numberUnit="EUR"
+        									numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }">
+        									
+        									<firstStatus>
+        										<ObjectStatus text="{ path : 'invoice>Status', formatter: '.formatter.statusText' }"/>
+        									</firstStatus>
+        								
+        								</ObjectListItem>
+    								</items>
+    								
+								</List>
+								
+							</content>
+						</Panel>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+	
+</mvc:View>
